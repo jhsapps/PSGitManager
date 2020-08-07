@@ -1,0 +1,47 @@
+buildscript {
+    ext.kotlin_version = '1.3.72'
+    ext.selenium_version = '3.141.59'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'application'
+
+group 'com.jhsapps'
+version '1.0.0'
+
+mainClassName = 'com.jhsapps.psgitmanager.MainKt'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.seleniumhq.selenium:selenium-java:$selenium_version"
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.jhsapps.psgitmanager.MainKt'
+    }
+    archiveName 'psgitmanager.jar'
+    from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+}
